@@ -1,18 +1,25 @@
-# ManuelbastioniLAB - Copyright (C) 2015-2018 Manuel Bastioni
-# Official site: www.manuelbastioni.com
+# MB-Lab
+
 # MB-Lab fork website : https://github.com/animate1978/MB-Lab
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# ##### BEGIN GPL LICENSE BLOCK #####
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 3
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software Foundation,
+#  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# ##### END GPL LICENSE BLOCK #####
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 import numpy as np
@@ -39,11 +46,11 @@ class MaterialEngine:
 
         image_file_names = {
             "displ_data": character_config["texture_displacement"],
-            "body_derm": character_config["texture_diffuse"],
+            "body_derm": character_config["texture_albedo"],
             "body_displ": character_config["name"]+"_displ.png",
             "body_spec": character_config["texture_specular"],
             "body_rough": character_config["texture_roughness"],
-            "eyes_diffuse": character_config["texture_eyes"],
+            "eyes_albedo": character_config["texture_eyes"],
             "body_bump": character_config["texture_bump"],
             "body_subd": character_config["texture_subdermal"],
         }
@@ -88,7 +95,7 @@ class MaterialEngine:
 
     @property
     def texture_eyes_exist(self):
-        return os.path.isfile(self.image_file_paths["eyes_diffuse"])
+        return os.path.isfile(self.image_file_paths["eyes_albedo"])
 
     @property
     def texture_bump_exist(self):
@@ -163,7 +170,7 @@ class MaterialEngine:
                     value = material_parameters[node.name]
                     algorithms.set_node_output_value(node, 0, value)
                 elif update_textures_nodes:
-                    if "_skn_diffuse" in node.name:
+                    if "_skn_albedo" in node.name:
                         self.assign_image_to_node(material.name, node.name, self.image_file_names["body_derm"])
                     if "_skn_specular" in node.name:
                         self.assign_image_to_node(material.name, node.name, self.image_file_names["body_spec"])
@@ -172,12 +179,12 @@ class MaterialEngine:
                                                   self.image_file_names["body_rough"])
                     if "_skn_subdermal" in node.name:
                         self.assign_image_to_node(material.name, node.name, self.image_file_names["body_subd"])
-                    if "_eys_diffuse" in node.name:
+                    if "_eys_albedo" in node.name:
                         self.assign_image_to_node(material.name, node.name,
-                                                  self.image_file_names["eyes_diffuse"])
-                    if "_eylsh_diffuse" in node.name:
+                                                  self.image_file_names["eyes_albedo"])
+                    if "_eylsh_albedo" in node.name:
                         self.assign_image_to_node(material.name, node.name, self.image_file_names["body_derm"])
-                    if "_tth_diffuse" in node.name:
+                    if "_tth_albedo" in node.name:
                         self.assign_image_to_node(material.name, node.name, self.image_file_names["body_derm"])
                     if "_skn_bump" in node.name:
                         self.assign_image_to_node(material.name, node.name, self.image_file_names["body_bump"])
